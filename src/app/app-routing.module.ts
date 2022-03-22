@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PiceOfCakeModule } from './pice-of-cake/pice-of-cake.module';
-
 const routes: Routes = [
   {
     path: '',
-    // Cal to main component
     children: [
+      {
+        path: '',
+        loadChildren: () => import('@main/dashboard/dashboard.module')
+          .then(m => m.DashboardModule)
+      },
       {
         path: 'pice-of-cake',
         loadChildren: () => import('@pice-of-cake/pice-of-cake.module')
@@ -23,7 +25,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '',
-    // Show bad request page
+    pathMatch: 'full'
   }
   
 ];

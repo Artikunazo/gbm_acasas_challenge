@@ -32,7 +32,7 @@
       "@lets-rock/*": [
         "src/app/lets-rock/*"
       ],
-      "@main-modules/*": [
+      "@main/*": [
         "src/app/main-modules/*"
       ],
       "@environment/*": [
