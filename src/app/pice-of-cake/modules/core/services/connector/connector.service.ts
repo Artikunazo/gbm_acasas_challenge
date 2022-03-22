@@ -11,6 +11,11 @@ export class ConnectorService {
     private _http: HttpClient
   ) { }
 
+  /**
+   * Method to send request type GET
+   * @param url to request
+   * @returns Observable<Object> (response in json format)
+   */
   mGet(url: string): Observable<Object> {
     if(!url){
       throw new Error('Url is required');

@@ -18,7 +18,7 @@ import { IpcService } from './../../services/ipc.service';
   styleUrls: ['./show-chart.component.scss']
 })
 export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() chartData!: IIpc[];
+  @Input() chartData: IIpc[] = [];
 
   Highcharts = Highcharts;
   chartOptions: Options = {};
@@ -43,9 +43,27 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
     this.loadChart();
   }
 
+  /**
+   * Method to initialize the chart
+   */
   loadChart(): void {
-    const series = this.getParamGroup(this.chartData, 'series') || []; // Y Axis
-    const categories = this.getParamGroup(this.chartData, 'categories') || []; // X Axis
+    /**
+     * Series array is used to show the data in the chart in Y Axis
+     */
+    const series = this.getParamGroup(this.chartData, 'series');
+    
+    /**
+     * Categories array is used to show the data in the chart in X Axis
+     */
+    const categories = this.getParamGroup(this.chartData, 'categories');
+
+    this.loadChartOptions(series, categories);
+  }
+
+  /**
+   * Load chart options to render the chart
+   */
+  loadChartOptions(series: number[], categories: string[]): void {
 
     this.chartOptions = {
       chart: {
@@ -118,9 +136,14 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
       ],
 
     };
-
   }
 
+  /**
+   * Method to get the group of data from the chartData
+   * @param data 
+   * @param param the param to get the value
+   * @returns Array of values
+   */
   getParamGroup(data: IIpc[], param: string): Array<any> {
     return this._IpcService.getParamGroup(data, param);
   }

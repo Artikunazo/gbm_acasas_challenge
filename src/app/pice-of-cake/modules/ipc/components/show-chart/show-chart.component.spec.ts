@@ -1,6 +1,7 @@
 import { ShowChartComponent } from './show-chart.component';
 import { IpcDataMock } from '@common/ipc.mock';
 import { IpcService } from './../../services/ipc.service';
+import { IIpc } from '../../models/ipc.model';
 
 describe('ShowChartComponent', () => {
   let component: ShowChartComponent;
@@ -14,7 +15,7 @@ describe('ShowChartComponent', () => {
     ipcServiceSpy.getParamGroup.and.returnValue([]);
 
     component = new ShowChartComponent(ipcServiceSpy);
-    component.chartData = IpcDataMock;
+    component.chartData = IpcDataMock as unknown as IIpc[];
 
   });
 
@@ -33,6 +34,7 @@ describe('ShowChartComponent', () => {
     component.loadChart();
     
     expect(component.chartData).toBeTruthy();
+    expect(component.chartOptions).toBeTruthy();
   });
   
 });

@@ -5,10 +5,10 @@
   <br />
 
   <show-chart 
-    *ngIf="chartData" 
+    *ngIf="chartData.length" 
     [chartData]="chartData"
   ></show-chart>
-  <div class="row" *ngIf="!chartData">
+  <div class="row" *ngIf="!chartData.length">
     <div class="col text-center">
       <div class="lds-dual-ring" ></div>
       <p>Loading...</p>

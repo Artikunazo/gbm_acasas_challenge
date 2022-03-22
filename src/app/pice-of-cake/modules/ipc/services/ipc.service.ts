@@ -12,20 +12,30 @@ import { format, parseISO } from 'date-fns';
 })
 export class IpcService {
 
+  private apiUrl = `${environment.apiUrl}`;
+
   constructor(
     private _connectorService: ConnectorService
   ) {}
 
-  getIpcData(): Observable<any> {
-    return this._connectorService.mGet(`${environment.apiUrl}`)
+  /**
+   * Method to get the data from the API
+   */
+  getIpcData(): Observable<IIpc[]> {
+    return this._connectorService.mGet(this.apiUrl)
     .pipe(
       map((data: any) => {
-        // Clear duplicates on the data array
+        // Call clearData to clean duplicates on the data array
         return this.clearData(data);
       })
     );
   }
 
+  /**
+   * Method to clear duplicates on the data array
+   * @param data Data to clean
+   * @returns Same data type but without duplicates
+   */
   clearData(data: IIpc[]): IIpc[] {
     
     if(!data.length){
@@ -45,6 +55,12 @@ export class IpcService {
     return dataCleaned;
   }
 
+  /**
+   * Method to get the group of data from the chartData
+   * @param data 
+   * @param param the param to get the value
+   * @returns Array of values
+  */
   getParamGroup(data: IIpc[], param: string): Array<number|string> {
     const result = data.map((item: IIpc) => {
       

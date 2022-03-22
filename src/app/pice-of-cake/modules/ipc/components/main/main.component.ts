@@ -8,7 +8,7 @@ import { IpcService } from '../../services/ipc.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  public chartData!: IIpc[];
+  public chartData: IIpc[] = [];
 
   constructor(
     private _ipcService: IpcService
@@ -18,6 +18,9 @@ export class MainComponent implements OnInit {
     this.getIpcData();
   }
 
+  /**
+   * Method to get the data from the service
+   */
   getIpcData(): void {
     this._ipcService.getIpcData().subscribe({
       next: (data: IIpc[]) => {
