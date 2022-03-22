@@ -19,23 +19,32 @@ export class IpcService {
     return this._connectorService.mGet(`${environment.apiUrl}`)
     .pipe(
       map((data: any) => {
-        // Clear duplicates data
-        return Array.from(
-          new Set(
-            data.map((item: IIpc) => {
-              return item.price;
-            }))
-          )
-        .map(item => {
-          return data.find((a: IIpc) => {
-            return a.price === item;
-          })
-        });
+        // Clear duplicates on the data array
+        return this.clearData(data);
       })
-    )
+    );
   }
 
-  getData(data: IIpc[], param: string): Array<any> {
+  clearData(data: IIpc[]): IIpc[] {
+    
+    if(!data.length){
+      return data;
+    }
+
+    const prices: number[] = data.map((ipc: IIpc) => {
+      return ipc.price;
+    });
+
+    const dataCleaned = Array.from(new Set(prices)).map(item => {
+      return data.find((ipc: IIpc) => {
+        return ipc.price === item;
+      })
+    });
+
+    return dataCleaned as IIpc[];
+  }
+
+  getParamGroup(data: IIpc[], param: string): Array<any> {
     const result = data.map((item: IIpc) => {
       
       switch (param) {
@@ -45,8 +54,8 @@ export class IpcService {
         case 'series':
           return item.price;
         
-          default:
-            return '';
+        default:
+          return '';
       }
     });
 

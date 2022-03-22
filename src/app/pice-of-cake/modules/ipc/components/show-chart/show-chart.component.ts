@@ -6,10 +6,10 @@ import {
   SimpleChanges, 
   AfterViewInit,
 } from '@angular/core';
-import { IIpc } from '../../models/ipc';
-import * as Highcharts from 'highcharts';
 import { Options } from 'highcharts';
 import { format, parseISO } from 'date-fns';
+import * as Highcharts from 'highcharts';
+import { IIpc } from '../../models/ipc';
 import { IpcService } from './../../services/ipc.service';
 
 @Component({
@@ -34,7 +34,6 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('Chart data', changes['chartData']);
     if (changes['chartData'].currentValue) {
         this.loadChart();
     }
@@ -45,8 +44,8 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   loadChart(): void {
-    const series = this.getData(this.chartData, 'series'); // Y Axis
-    const categories = this.getData(this.chartData, 'categories'); // X Axis
+    const series = this.getParamGroup(this.chartData, 'series'); // Y Axis
+    const categories = this.getParamGroup(this.chartData, 'categories'); // X Axis
 
     this.chartOptions = {
       chart: {
@@ -122,8 +121,8 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  getData(data: IIpc[], param: string): Array<any> {
-    return this._IpcService.getData(data, param);
+  getParamGroup(data: IIpc[], param: string): Array<any> {
+    return this._IpcService.getParamGroup(data, param);
   }
 
 }
