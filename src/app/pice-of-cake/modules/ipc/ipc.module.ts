@@ -7,6 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { IpcService } from './services/ipc.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
   imports: [
     CommonModule,
     HighchartsChartModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule
   ],
   providers: [
     IpcService,

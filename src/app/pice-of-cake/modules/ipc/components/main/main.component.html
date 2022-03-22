@@ -1,6 +1,21 @@
-<app-header></app-header>
-<p>main works!</p>
+<section class="container-fluid">
+  <app-header></app-header>
 
-<show-chart *ngIf="chartData" [chartData]="chartData"></show-chart>
+  <br />
+  <br />
 
-<app-footer></app-footer>
+  <show-chart 
+    *ngIf="chartData" 
+    [chartData]="chartData"
+  ></show-chart>
+  <div class="row" *ngIf="!chartData">
+    <div class="col text-center">
+      <div class="lds-dual-ring" ></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+  
+  <br />
+  <br />
+  <app-footer></app-footer>
+</section>
