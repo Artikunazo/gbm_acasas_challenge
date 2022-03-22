@@ -17,7 +17,8 @@ import { ConnectorService } from './services/connector/connector.service';
     HttpClientModule
   ],
   providers: [
-    ConnectorService
+    ConnectorService,
+    HttpClientModule
   ],
   exports: [
     AppHeaderComponent,

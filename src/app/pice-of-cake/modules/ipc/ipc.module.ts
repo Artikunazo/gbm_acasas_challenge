@@ -1,11 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ShowChartComponent } from './components/show-chart/show-chart.component';
 import { MainComponent } from './components/main/main.component';
 import { IpcService } from './services/ipc.service';
 import { HighchartsChartModule } from 'highcharts-angular';
-// import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -15,11 +15,12 @@ import { HighchartsChartModule } from 'highcharts-angular';
   ],
   imports: [
     CommonModule,
-    // NgChartsModule
-    HighchartsChartModule
+    HighchartsChartModule,
+    HttpClientModule
   ],
   providers: [
     IpcService,
+    HttpClientModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

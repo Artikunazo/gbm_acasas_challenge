@@ -38,6 +38,9 @@
       "@environment/*": [
         "src/environments/*"
       ],
+      "@common/*": [
+        "src/app/_common/*"
+      ],
     }
   },
   "angularCompilerOptions": {

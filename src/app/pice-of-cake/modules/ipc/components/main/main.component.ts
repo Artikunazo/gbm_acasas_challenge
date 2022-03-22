@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IIpc } from '../../models/ipc';
+import { IIpc } from '../../models/ipc.model';
 import { IpcService } from '../../services/ipc.service';
 
 @Component({

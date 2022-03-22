@@ -3,8 +3,9 @@ import { environment } from '@environment/environment';
 import { ConnectorService } from '../../core/services/connector/connector.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IIpc } from '../models/ipc';
+import { IIpc } from '../models/ipc.model';
 import { format, parseISO } from 'date-fns';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class IpcService {
 
   constructor(
     private _connectorService: ConnectorService
-  ) { }
+  ) {}
 
   getIpcData(): Observable<any> {
     return this._connectorService.mGet(`${environment.apiUrl}`)

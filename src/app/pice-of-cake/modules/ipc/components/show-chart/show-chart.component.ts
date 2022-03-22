@@ -9,7 +9,7 @@ import {
 import { Options } from 'highcharts';
 import { format, parseISO } from 'date-fns';
 import * as Highcharts from 'highcharts';
-import { IIpc } from '../../models/ipc';
+import { IIpc } from '../../models/ipc.model';
 import { IpcService } from './../../services/ipc.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { IpcService } from './../../services/ipc.service';
 export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() chartData!: IIpc[];
 
-  Highcharts: typeof Highcharts = Highcharts;
+  Highcharts = Highcharts;
   chartOptions: Options = {};
 
 
@@ -44,8 +44,8 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   loadChart(): void {
-    const series = this.getParamGroup(this.chartData, 'series'); // Y Axis
-    const categories = this.getParamGroup(this.chartData, 'categories'); // X Axis
+    const series = this.getParamGroup(this.chartData, 'series') || []; // Y Axis
+    const categories = this.getParamGroup(this.chartData, 'categories') || []; // X Axis
 
     this.chartOptions = {
       chart: {
@@ -73,7 +73,7 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
         },
         type: 'datetime',
         zoomEnabled: true,
-        max: categories.length - 1,
+        max: categories.length - 1 || 0,
          
       },
       yAxis: {          
@@ -83,8 +83,8 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
             fontSize: '18px'
           }
         },
-        min:  Math.min(...series),
-        max: Math.max(...series),
+        min:  Math.min(...series) || 0,
+        max: Math.max(...series) || 0,
         zoomEnabled: true,
 
       },
@@ -110,7 +110,7 @@ export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
         {
           type: 'areaspline',
           name: 'Price',
-          data: series,
+          data: series || [],
           custom: {
             allData: this.chartData
           }

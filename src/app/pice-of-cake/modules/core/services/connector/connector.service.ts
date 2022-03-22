@@ -12,6 +12,9 @@ export class ConnectorService {
   ) { }
 
   mGet(url: string): Observable<Object> {
+    if(!url){
+      throw new Error('Url is required');
+    }
     return this._http.get(url);
   }
 }
