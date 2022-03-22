@@ -31,20 +31,20 @@ export class IpcService {
       return data;
     }
 
-    const prices: number[] = data.map((ipc: IIpc) => {
+    const prices = data.map((ipc: IIpc) => {
       return ipc.price;
-    });
+    }) as number[];
 
     const dataCleaned = Array.from(new Set(prices)).map(item => {
       return data.find((ipc: IIpc) => {
         return ipc.price === item;
       })
-    });
+    }) as IIpc[];
 
-    return dataCleaned as IIpc[];
+    return dataCleaned;
   }
 
-  getParamGroup(data: IIpc[], param: string): Array<any> {
+  getParamGroup(data: IIpc[], param: string): Array<number|string> {
     const result = data.map((item: IIpc) => {
       
       switch (param) {
@@ -55,9 +55,9 @@ export class IpcService {
           return item.price;
         
         default:
-          return '';
+          return [''];
       }
-    });
+    }) as Array<number|string>;
 
     return result;
   }
