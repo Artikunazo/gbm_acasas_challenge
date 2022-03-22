@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { ConnectorService } from '../../core/services/connector/connector.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IIpc } from '../models/ipc.model';
 import { format, parseISO } from 'date-fns';
@@ -21,10 +21,14 @@ export class IpcService {
   /**
    * Method to get the data from the API
    */
-  getIpcData(): Observable<IIpc[]> {
+  getIpcData(): Observable<IIpc[]> | Observable<any> {
     return this._connectorService.mGet(this.apiUrl)
     .pipe(
       map((data: any) => {
+        if(!data.length){
+          return throwError(() => new Error('No data'));
+        }
+        
         // Call clearData to clean duplicates on the data array
         return this.clearData(data);
       })
