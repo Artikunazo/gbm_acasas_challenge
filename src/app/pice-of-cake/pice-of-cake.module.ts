@@ -6,8 +6,11 @@ import { PiceOfCakeRoutingModule } from './pice-of-cake-routing.module';
 import { IpcModule } from './modules/ipc/ipc.module';
 import { CoreModule } from './modules/core/core.module';
 
+
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [
     CommonModule,
     IpcModule,

@@ -1,6 +1,6 @@
 <app-header></app-header>
 <p>main works!</p>
 
-<show-chart [chartData]="chartData"></show-chart>
+<show-chart *ngIf="chartData" [chartData]="chartData"></show-chart>
 
 <app-footer></app-footer>

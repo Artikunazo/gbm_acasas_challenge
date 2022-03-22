@@ -3,10 +3,8 @@ import { environment } from '@environment/environment';
 import { ConnectorService } from '../../core/services/connector/connector.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IOhlc } from '../models/ohlc';
 import { IIpc } from '../models/ipc';
-import { parseISO } from 'date-fns';
-
+import { format, parseISO } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
@@ -17,26 +15,41 @@ export class IpcService {
     private _connectorService: ConnectorService
   ) { }
 
-  getIpcData(): Observable<Object> {
+  getIpcData(): Observable<any> {
     return this._connectorService.mGet(`${environment.apiUrl}`)
     .pipe(
-      map(
-        (data: any) => {
-          return {
-            initialDate: data[0].date,
-            collection: data.map((item: IIpc) => {
-              return {
-                x: +parseISO(item.date),
-                c: item.change,
-                h: item.volume,
-                l: item.price,
-                o: item.percentageChange
-              }
-            })
-          }
+      map((data: any) => {
+        // Clear duplicates data
+        return Array.from(
+          new Set(
+            data.map((item: IIpc) => {
+              return item.price;
+            }))
+          )
+        .map(item => {
+          return data.find((a: IIpc) => {
+            return a.price === item;
+          })
+        });
+      })
+    )
+  }
 
-        }
-      )
-    );
+  getData(data: IIpc[], param: string): Array<any> {
+    const result = data.map((item: IIpc) => {
+      
+      switch (param) {
+        case 'categories':
+          return format(parseISO(item.date), 'hh:mm:ss');
+
+        case 'series':
+          return item.price;
+        
+          default:
+            return '';
+      }
+    });
+
+    return result;
   }
 }

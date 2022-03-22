@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './components/show-chart/show-chart.component';
 import { MainComponent } from './components/main/main.component';
 import { IpcService } from './services/ipc.service';
-import { NgChartsModule } from 'ng2-charts';
+import { HighchartsChartModule } from 'highcharts-angular';
+// import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { NgChartsModule } from 'ng2-charts';
   ],
   imports: [
     CommonModule,
-    NgChartsModule
+    // NgChartsModule
+    HighchartsChartModule
   ],
   providers: [
     IpcService,

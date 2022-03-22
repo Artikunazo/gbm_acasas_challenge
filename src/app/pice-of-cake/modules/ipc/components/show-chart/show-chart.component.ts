@@ -4,80 +4,126 @@ import {
   Input, 
   OnChanges, 
   SimpleChanges, 
-  ViewChild 
+  AfterViewInit,
 } from '@angular/core';
 import { IIpc } from '../../models/ipc';
-import { BaseChartDirective  } from 'ng2-charts';
-import { 
-  CandlestickController, 
-  CandlestickElement, 
-  OhlcController, 
-  OhlcElement 
-} from 'chartjs-chart-financial';
-import { Chart, ChartConfiguration, ChartType } from 'chart.js';
-import { enUS } from 'date-fns/locale';
-import 'chartjs-adapter-moment';
+import * as Highcharts from 'highcharts';
+import { Options } from 'highcharts';
+import { format, parseISO } from 'date-fns';
+import { IpcService } from './../../services/ipc.service';
 
 @Component({
   selector: 'show-chart',
   templateUrl: './show-chart.component.html',
   styleUrls: ['./show-chart.component.scss']
 })
-export class ShowChartComponent implements OnInit, OnChanges {
-  @Input() chartData: any = {
-    initialDate: '',
-    collection: []
-  };
+export class ShowChartComponent implements OnInit, OnChanges, AfterViewInit {
+  @Input() chartData!: IIpc[];
 
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  public initialDateStr = this.chartData.initialDate;
-  public financialChartData: ChartConfiguration['data'] = {
-    datasets: [ {
-      label: 'IPC',
-      data: this.chartData.collection,
-    } ]
-  };
-  public financialChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        time: {
-          unit: 'minute'
-        },
-        adapters: {
-          date: {
-            locale: enUS
-          }
-        },
-        ticks: {
-          source: 'auto'
-        }
-      }
-    }
-  };
-  public financialChartColors = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,0,0,0.3)',
-    },
-  ];
-  public financialChartLegend = true;
-  public financialChartType: ChartType = 'candlestick';
-  public barChartPlugins = [];
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Options = {};
 
-  constructor() {
-    Chart.register(CandlestickController, OhlcController, CandlestickElement, OhlcElement);
-   }
+
+  constructor(
+    private _IpcService: IpcService
+  ) {}
+
+  ngAfterViewInit(): void{
+    this.Highcharts.setOptions(this.chartOptions);
+    
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['chartData'].currentValue) {
-    //   this.chartData = changes['chartData'].currentValue;
-    // }
+    // console.log('Chart data', changes['chartData']);
+    if (changes['chartData'].currentValue) {
+        this.loadChart();
+    }
   }
 
   ngOnInit(): void {
-    
+    this.loadChart();
+  }
+
+  loadChart(): void {
+    const series = this.getData(this.chartData, 'series'); // Y Axis
+    const categories = this.getData(this.chartData, 'categories'); // X Axis
+
+    this.chartOptions = {
+      chart: {
+        type: 'areaspline',
+        zoomType: 'xy',
+      },
+      mapNavigation: {
+        enabled: true,
+        enableMouseWheelZoom: true,
+        enableDoubleClickZoom: true,
+        mouseWheelSensitivity: 1.5,
+        enableTouchZoom: true
+      },
+      title: {
+         text: 'Indice de Precios y Cotizaciones (IPC)'
+      },
+      xAxis:{
+        categories,
+        title: {
+          text: 'Time: ' + format(parseISO(this.chartData[0].date), 'dd/MM/yyyy'),
+          style: {
+            fontSize: '18px'
+
+          }
+        },
+        type: 'datetime',
+        zoomEnabled: true,
+        max: categories.length - 1,
+         
+      },
+      yAxis: {          
+        title:{
+          text:'Price',
+          style: {
+            fontSize: '18px'
+          }
+        },
+        min:  Math.min(...series),
+        max: Math.max(...series),
+        zoomEnabled: true,
+
+      },
+      tooltip: {
+        valueSuffix:' ',
+        formatter: function() {
+        const data = this.point.series.options.custom || {};
+
+        if (!data || !Object.keys(data).length) {
+          return `<b>Price: </b>${this.point.y}`;
+        }
+
+        const item = data['allData'].filter((item: IIpc) => item.price === this.point.y)[0];
+        return `<b>Date:</b> ${format(parseISO(item.date), 'hh:mm:ss:m')}<br/>
+        <b>Price:</b> ${item.price}<br/>
+        <b>Volume:</b> ${item.volume}<br/>
+        <b>Percentage Change:</b> ${item.percentageChange}<br/>
+        <b>change:</b> ${item.change}`;
+
+        },
+      },
+      series: [
+        {
+          type: 'areaspline',
+          name: 'Price',
+          data: series,
+          custom: {
+            allData: this.chartData
+          }
+        },
+      ],
+
+    };
+
+  }
+
+  getData(data: IIpc[], param: string): Array<any> {
+    return this._IpcService.getData(data, param);
   }
 
 }
