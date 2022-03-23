@@ -26,8 +26,8 @@
       "@app/*": [
         "src/app/*"
       ],
-      "@pice-of-cake/*": [
-        "src/app/pice-of-cake/*"
+      "@piece-of-cake/*": [
+        "src/app/piece-of-cake/*"
       ],
       "@lets-rock/*": [
         "src/app/lets-rock/*"

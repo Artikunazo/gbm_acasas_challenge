@@ -11,9 +11,9 @@ const routes: Routes = [
           .then(m => m.DashboardModule)
       },
       {
-        path: 'pice-of-cake',
-        loadChildren: () => import('@pice-of-cake/pice-of-cake.module')
-          .then(m => m.PiceOfCakeModule)
+        path: 'piece-of-cake',
+        loadChildren: () => import('@piece-of-cake/piece-of-cake.module')
+          .then(m => m.PieceOfCakeModule)
       },
       {
         path: 'lets-rock',
@@ -27,7 +27,7 @@ const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full'
   }
-  
+
 ];
 
 @NgModule({

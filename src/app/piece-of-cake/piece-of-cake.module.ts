@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { PiceOfCakeRoutingModule } from './pice-of-cake-routing.module';
+import { PieceOfCakeRoutingModule } from './piece-of-cake-routing.module';
 import { IpcModule } from './modules/ipc/ipc.module';
 import { CoreModule } from './modules/core/core.module';
 
@@ -13,11 +13,11 @@ import { CoreModule } from './modules/core/core.module';
     CommonModule,
     IpcModule,
     CoreModule,
-    PiceOfCakeRoutingModule,
+    PieceOfCakeRoutingModule,
     HttpClientModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class PiceOfCakeModule { }
+export class PieceOfCakeModule { }
