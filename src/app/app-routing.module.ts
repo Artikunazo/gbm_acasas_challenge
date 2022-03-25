@@ -11,12 +11,12 @@ const routes: Routes = [
           .then(m => m.DashboardModule)
       },
       {
-        path: 'piece-of-cake',
+        path: 'challenges/piece-of-cake',
         loadChildren: () => import('@piece-of-cake/piece-of-cake.module')
           .then(m => m.PieceOfCakeModule)
       },
       {
-        path: 'lets-rock',
+        path: 'challenges/lets-rock',
         loadChildren: () => import('@lets-rock/lets-rock.module')
           .then(m => m.LetsRockModule)
       },

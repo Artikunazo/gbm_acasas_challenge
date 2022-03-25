@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="sendLogin(loginForm)"
+        class="d-flex flex-column"
+      >
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="username"
+            class="form-control"
+            id="username"
+            formControlName="username"
+          />
+        </div>
+
+        <br />
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+          />
+        </div>
+
+        <br />
+
+        <button
+          type="submit"
+          class="btn btn-primary align-self-center"
+          [disabled]="!loginForm.valid || isLoading"
+        >
+          <span>Login</span>
+        </button>
+      </form>
+
+      <div class="alerts__container pt-3">
+        <div class="row" *ngIf="isLoading">
+          <div class="col text-center">
+            <spinner></spinner>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="attemptsLogin >= 3 && !isLoading">
+          <div class="col">
+            <show-alert
+              [type]="'danger'"
+              [message]="'You have exceeded the maximum number of login attempts.'"
+            ></show-alert>
+          </div>
+        </div>
+
+        <div class="row pt-3" *ngIf="isLoginError && !isLoading">
+          <div class="col">
+            <show-alert
+              [type]="'danger'"
+              [message]="'Username or password incorrect.'"
+            ></show-alert>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</div>

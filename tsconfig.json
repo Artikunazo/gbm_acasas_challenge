@@ -32,6 +32,9 @@
       "@lets-rock/*": [
         "src/app/lets-rock/*"
       ],
+      "@lets-rock-modules/*": [
+        "src/app/lets-rock/modules/*"
+      ],
       "@main/*": [
         "src/app/main-modules/*"
       ],
@@ -40,6 +43,9 @@
       ],
       "@common/*": [
         "src/app/_common/*"
+      ],
+      "@src/*": [
+        "src/*"
       ],
     }
   },
