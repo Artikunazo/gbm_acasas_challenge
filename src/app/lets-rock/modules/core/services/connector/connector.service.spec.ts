@@ -1,7 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ConnectorService } from './connector.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 

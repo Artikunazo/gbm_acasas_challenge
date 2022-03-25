@@ -19,16 +19,24 @@ export class DashboardComponent implements OnInit {
     this.getUser();
   }
 
+  /**
+   * Get user info from session storage
+   * If the sessionStorage is empty, redirect to login page
+   */
   getUser(): void {
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
     if(!user.username){
-      this._router.navigate(['/challenges/lets-rock/']);
+      this.logout();
     }
 
     this.user = user;
   }
 
+  /**
+   * Logout user removing user info from session storage
+   * And redirecting to login page
+   */
   logout (): void {
     sessionStorage.removeItem('user');
     this._router.navigate(['/challenges/lets-rock/']);
