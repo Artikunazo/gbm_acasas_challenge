@@ -51,7 +51,7 @@ export class LoginFormComponent implements OnInit {
    * It will show a loading spinner while the request is being processed
    * If the request is successful, it will redirect to dashboard page
    * If the request is not successful, it will show an error message
-   * After 3 attempts,  it will show another error message
+   * After 3 attempts, it will show another error message
    * @param form FormGroup with username and password fields
    */
   sendLogin(form: any): void {
